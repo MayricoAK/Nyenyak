@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.nyenyak.data.api.ApiService
+import com.dicoding.nyenyak.data.response.ForgotResponse
 import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.data.response.LoginResponse
@@ -32,6 +33,10 @@ class AppRepository private constructor(
         return apiService.register(email, password, name, gender, birthdate)
     }
 
+    suspend fun forgot(email: String): ForgotResponse {
+        return apiService.forgot(email)
+    }
+    
     fun getSession(): Flow<DataModel> {
         return sessionPreference.getToken()
     }
@@ -49,8 +54,15 @@ class AppRepository private constructor(
                 call: Call<LoginResponse>,
                 response: Response<LoginResponse>
             ) { if (response.isSuccessful) {
-                _isLoading.value = false
-                _loginResponse.value = response.body() }
+                val responseBody = response.body()
+                if (responseBody?.status == "failed"){
+                    _isLoading.value = false
+                    _loginResponse.value = response.body()
+                }else{
+                    _isLoading.value = false
+                    _loginResponse.value = response.body()
+                }
+            }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

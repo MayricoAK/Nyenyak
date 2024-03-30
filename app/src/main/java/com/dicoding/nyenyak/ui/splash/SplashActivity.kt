@@ -1,13 +1,11 @@
 package com.dicoding.nyenyak.ui.splash
 
-import android.app.Application
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,14 +14,10 @@ import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.databinding.ActivitySplashBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.ViewModelFactory
-import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
-import com.dicoding.nyenyak.ui.fragment.user.UserFragment
-import com.dicoding.nyenyak.ui.login.LoginActivity
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,7 +51,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun delayTime() {
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewmodel = ViewModelProvider(this,SecondViewModelFactory(pref)).get(
+        val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
             SplashViewModel::class.java
         )
 

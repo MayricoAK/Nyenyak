@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.nyenyak.data.di.Injection
 import com.dicoding.nyenyak.data.repository.AppRepository
-import com.dicoding.nyenyak.ui.input.InputViewModel
+import com.dicoding.nyenyak.ui.forgot.ForgotPasswordViewModel
 import com.dicoding.nyenyak.ui.login.LoginViewModel
 import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.register.RegisterViewModel
-import com.dicoding.nyenyak.ui.splash.SplashViewModel
 
 class ViewModelFactory(
     private val repository: AppRepository
@@ -25,6 +24,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ForgotPasswordViewModel::class.java) -> {
+                ForgotPasswordViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -14,18 +14,18 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
-
 class InputActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInputBinding
     private var sldsleep: Int = 3
     private var sldstress: Int = 3
+    private var bloodpressure: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInputBinding.inflate(layoutInflater)
@@ -41,13 +41,14 @@ class InputActivity : AppCompatActivity() {
         binding.sliderratingtidur.addOnChangeListener { slider, value, fromUser ->
             sldsleep = value.toInt()
         }
-
+        binding.spinnerbpinput.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newText ->
+            bloodpressure = newText
+        }
         binding.btnInput.setOnClickListener {
-
             var weight = binding.etBbInput.text.toString().toInt()
             var height = binding.etTinggiInput.text.toString().toInt()
             var sleepDuration = binding.etTidurInput.text.toString().toFloat()
-            var bloodPressure = binding.spinnerbpinput.selectedItem.toString()
+
             var heartRate = binding.etJantungInput.text.toString().toInt()
             var dailySteps = binding.etLangkahInput.text.toString().toInt()
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
@@ -63,7 +64,7 @@ class InputActivity : AppCompatActivity() {
                         showLoading(true)
                         val apiService = ApiConfig.getApiService(it.token)
                         val inputResponse = apiService.inputDiagnosis(
-                            weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodPressure,sldstress,heartRate,dailySteps
+                            weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodpressure,sldstress,heartRate,dailySteps
                         )
 
                         showToast(inputResponse.message.toString())

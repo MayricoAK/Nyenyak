@@ -20,4 +20,9 @@
         android:name="com.dicoding.nyenyak.ui.fragment.user.UserFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="com.dicoding.nyenyak.ui.fragment.calculator.CalculatorFragment"
+        android:label="fragment_calculator"
+        tools:layout="@layout/fragment_calculator" />
 </navigation>

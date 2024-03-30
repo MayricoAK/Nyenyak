@@ -40,4 +40,22 @@
     <string name="alert_password_login">Kolom Password harus diisi!!</string>
     <string name="okey">Okey</string>
     <string name="sesi_berakhir">sesi login anda telah berakhir</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="sub_title">Masukkan email untuk lakukan reset password</string>
+    <string name="kirim">Kirim</string>
+    <string name="lupa_password_klik">Lupa password klik</string>
+    <string name="alert_email_pattern">email anda tidak sesuai</string>
+    <string name="update_npassword">Update \nPassword</string>
+    <string name="password_baru">Password Baru</string>
+    <string name="konfirmasi_password_baru">Konfirmasi Password Baru</string>
+    <string name="update_password">UPDATE PASSWORD</string>
+    <string name="update">UPDATE</string>
+    <string name="cek_pwd_gagal">Mohon cek kembali password dan konfirmasi password</string>
+    <string name="email_terdaftar">Pastikan email anda sudah terdaftar</string>
+    <string name="setelan">Setelan</string>
+    <string name="ubah_informasi_akun">Ubah Informasi Akun</string>
+    <string name="ubah_password">Ubah Password</string>
+    <string name="kalkulator_njam_tidur">Kalkulator \nJam Tidur</string>
+    <string name="_00_00">00:00</string>
+    <string name="kalkulasi">KALKULASI</string>
 </resources>

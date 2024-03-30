@@ -2,6 +2,7 @@ package com.dicoding.nyenyak.data.api
 
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
 import com.dicoding.nyenyak.data.response.DeleteResponse
+import com.dicoding.nyenyak.data.response.ForgotResponse
 import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.data.response.InputResponse
@@ -34,6 +35,12 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<LoginResponse>
+
+    @FormUrlEncoded
+    @POST("auth/reset-password")
+    suspend fun forgot(
+        @Field("email") email: String
+    ): ForgotResponse
 
     @FormUrlEncoded
     @POST("diagnosis")
@@ -71,4 +78,10 @@ interface ApiService {
         @Field("birthDate") birthDate: String,
         @Field("gender") gender: String
     ) : UpdateUserResponse
+
+    @FormUrlEncoded
+    @POST("/users/update-password")
+    suspend fun updatePassword(
+        @Field("newPassword") newPwd : String
+    ) : ForgotResponse
 }

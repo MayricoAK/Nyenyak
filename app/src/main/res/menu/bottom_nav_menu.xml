@@ -11,7 +11,12 @@
         android:icon="@drawable/baseline_list_24"
         android:title="@string/list" />
     <item
+        android:id="@+id/calculatorFragment"
+        android:icon="@drawable/baseline_calculate_24"
+        android:title="Kalkulator" />
+    <item
         android:id="@+id/userFragment"
         android:icon="@drawable/baseline_account_circle_24"
         android:title="@string/user" />
+
 </menu>

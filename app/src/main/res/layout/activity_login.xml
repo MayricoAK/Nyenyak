@@ -72,14 +72,42 @@
 
     <Button
         android:id="@+id/btn_login"
+        style="@style/Button"
         android:layout_width="325dp"
         android:layout_height="wrap_content"
-        style="@style/Button"
+        android:layout_marginBottom="20dp"
         android:text="@string/login"
         android:textSize="16sp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_forgot_pwd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_forgot_pwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/lupa_password_klik"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_forgot_pwd_klik"
+        app:layout_constraintEnd_toStartOf="@+id/tv_forgot_pwd_klik"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_forgot_pwd_klik"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_forgot_pwd_klik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="112dp"
+        android:layout_marginBottom="72dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Disini"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@ import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.databinding.ActivityLoginBinding
 import com.dicoding.nyenyak.session.DataModel
 import com.dicoding.nyenyak.ui.ViewModelFactory
+import com.dicoding.nyenyak.ui.forgot.ForgotPasswordActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import com.google.gson.Gson
@@ -35,11 +36,15 @@ class LoginActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setClickListener()
+
     }
 
     private fun setClickListener() {
         binding.ivBackBtn.setOnClickListener {
             navigateToBack()
+        }
+        binding.tvForgotPwdKlik.setOnClickListener {
+            navigateToForgot()
         }
     }
 
@@ -48,6 +53,10 @@ class LoginActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intentToWelcome)
+    }
+
+    private fun navigateToForgot(){
+        startActivity(Intent(this,ForgotPasswordActivity::class.java))
     }
 
     private fun setupView() {
@@ -65,11 +74,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.btnLogin.setOnClickListener {
+            showLoading(true)
             try {
-                viewModel.isLoading.observe(this) {
-                    showLoading(it)
-                }
-
                 val email = binding.layoutSignForm.editTextEmail.text.toString()
                 val password = binding.layoutSignForm.editTextPassword.text.toString()
 
@@ -90,9 +96,11 @@ class LoginActivity : AppCompatActivity() {
                                 true
                             )
                         )
+                        showLoading(false)
                     }
                     else {
-
+                        showLoading(false)
+                        showToast(it.message)
                     }
                 }
             } catch (e: HttpException) {
@@ -101,12 +109,13 @@ class LoginActivity : AppCompatActivity() {
                 val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
                 showToast(errorResponse.message)
             }
+            showLoading(false)
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.btnLogin.isEnabled = !isLoading
+        binding.pbLoading.visibility = if (isLoading == true) View.VISIBLE else View.GONE
+
     }
 
     private fun save(session: DataModel) {

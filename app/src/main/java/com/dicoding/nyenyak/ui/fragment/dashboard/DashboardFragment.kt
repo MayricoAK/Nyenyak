@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
@@ -18,7 +16,7 @@ import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
@@ -74,7 +72,7 @@ class DashboardFragment : Fragment() {
                                     val errorcode : String = response.code().toString()
                                     when(errorcode){
                                         "401" -> {
-                                            intent = Intent(context as MainActivity,WelcomeActivity::class.java)
+                                            intent = Intent(context as MainActivity?,WelcomeActivity::class.java)
                                         }
                                     }
                                     context?.startActivity(intent)

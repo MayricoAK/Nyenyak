@@ -15,9 +15,9 @@ import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.databinding.FragmentUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
-import com.dicoding.nyenyak.ui.login.LoginActivity
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
+import com.dicoding.nyenyak.ui.setelan.SettingsActivity
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import retrofit2.Call
@@ -39,7 +39,7 @@ class UserFragment : Fragment() {
 
         setUserData()
         binding.editInfoUser.setOnClickListener{
-            val intent = Intent(context,UpdateUserActivity::class.java)
+            val intent = Intent(context,SettingsActivity::class.java)
             startActivity(intent)
         }
 
@@ -93,9 +93,6 @@ class UserFragment : Fragment() {
                                 val errorcode : String = response.code().toString()
                                 when(errorcode){
                                     "401" -> {
-                                        Toast.makeText(context as MainActivity,getString(R.string.sesi_berakhir),
-                                            Toast.LENGTH_SHORT)
-                                        intent = Intent(context as MainActivity, WelcomeActivity::class.java)
                                     }
                                 }
                                 context?.startActivity(intent)
@@ -105,7 +102,6 @@ class UserFragment : Fragment() {
                         override fun onFailure(call: Call<GetDetailUserResponse>, t: Throwable) {
                             Log.e(TAG, "onFailure: ${t.message}")
                         }
-
                     })
                 }
             }

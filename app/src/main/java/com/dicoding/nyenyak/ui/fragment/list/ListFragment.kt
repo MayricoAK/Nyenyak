@@ -17,9 +17,8 @@ import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.FragmentListBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.input.InputActivity
-import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import retrofit2.Callback

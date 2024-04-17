@@ -53,6 +53,9 @@ class InputActivity : AppCompatActivity() {
             var dailySteps = binding.etLangkahInput.text.toString().toInt()
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
 
+            if (weight == null || height == null || sleepDuration == null || heartRate == null || dailySteps == null || physicalActivityLevel == null){
+                showToast(getString(R.string.peringatan))
+            }
             val pref = SessionPreference.getInstance(application.datastore)
             val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
                 InputViewModel::class.java

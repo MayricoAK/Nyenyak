@@ -2,6 +2,7 @@ package com.dicoding.nyenyak.ui.fragment.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.list.ListFragment
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
@@ -38,7 +40,6 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         showarticle()
         showlatestdiagnosis()
         return root
@@ -70,17 +71,17 @@ class DashboardFragment : Fragment() {
                                 }
                                 else{
                                     val errorcode : String = response.code().toString()
-                                    when(errorcode){
-                                        "401" -> {
-                                            intent = Intent(context as MainActivity?,WelcomeActivity::class.java)
-                                        }
-                                    }
-                                    context?.startActivity(intent)
+//                                    when(errorcode){
+//                                        "401" -> {
+//                                            intent = Intent(this@DashboardFragment.context as MainActivity,WelcomeActivity::class.java)
+//                                        }
+//                                    }
+//                                    context?.startActivity(intent)
                                 }
                             }
 
                             override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
-                                TODO("Not yet implemented")
+                                Log.e(TAG, "onFailure: ${t.message}")
                             }
                         })
                 }
@@ -112,16 +113,16 @@ class DashboardFragment : Fragment() {
                     }
                     else{
                         val errorcode : String = response.code().toString()
-                        when(errorcode){
-                            "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
-                        }
-                        context?.startActivity(intent)
+//                        when(errorcode){
+//                            "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+//                        }
+//                        context?.startActivity(intent)
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<ArticleResponseItem>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.e(TAG, "onFailure: ${t.message}")
             }
 
         })
@@ -133,5 +134,9 @@ class DashboardFragment : Fragment() {
         val adapter = ArticleAdapter(context as MainActivity)
         binding.rvTips.adapter = adapter
         adapter.submitList(subList)
+    }
+
+    companion object{
+        private const val TAG = "DashboardFragment"
     }
 }

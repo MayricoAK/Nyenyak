@@ -15,6 +15,7 @@ import android.view.Window
 import android.widget.AnalogClock
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.nyenyak.R
@@ -146,6 +147,11 @@ class CalculatorFragment : Fragment() {
 
         }
         binding.btnKalkulasi.setOnClickListener {
+            var cekJam = binding.tvJamKal.text
+            when{
+                aktifitas.isEmpty() -> Toast.makeText(context as MainActivity,"tolong pilih aktifitas yang diinginkan",Toast.LENGTH_SHORT).show()
+                cekJam == getString(R.string._00_00) -> Toast.makeText(context as MainActivity,"tolong pilih waktu yang diinginkan",Toast.LENGTH_SHORT).show()
+            }
 
             val dialog = Dialog(context as MainActivity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

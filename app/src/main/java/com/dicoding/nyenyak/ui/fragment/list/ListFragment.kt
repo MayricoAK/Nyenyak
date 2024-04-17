@@ -41,9 +41,6 @@ class ListFragment : Fragment() {
         _binding = FragmentListBinding.inflate(inflater,container,false)
         val root: View = binding.root
         showdiagnosis()
-        binding.btnToAdd.setOnClickListener {
-            startActivity(Intent(context,InputActivity::class.java))
-        }
         return root
     }
 
@@ -75,15 +72,17 @@ class ListFragment : Fragment() {
                                 }
                                 else{
                                     val errorcode : String = response.code().toString()
-                                    when(errorcode){
-                                        "401" -> {
-                                            Toast.makeText(context as MainActivity,getString(R.string.sesi_berakhir),
-                                                Toast.LENGTH_LONG)
-                                            intent = Intent(context as MainActivity,
-                                                WelcomeActivity::class.java)
-                                        }
-                                    }
-                                    context?.startActivity(intent)
+//                                    when(errorcode){
+//                                        "401" -> {
+//                                            Toast.makeText(
+//                                                this@ListFragment.context as MainActivity,getString(R.string.sesi_berakhir),
+//                                                Toast.LENGTH_LONG)
+//                                            intent = Intent(
+//                                                this@ListFragment.context as MainActivity,
+//                                                WelcomeActivity::class.java)
+//                                        }
+//                                    }
+//                                    context?.startActivity(intent)
                                 }
                             }
 

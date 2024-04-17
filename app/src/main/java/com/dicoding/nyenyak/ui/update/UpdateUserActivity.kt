@@ -59,6 +59,12 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                 gender = ""
             }
 
+            when{
+                nama.isEmpty() -> showToast(getString(R.string.peringatan_nama))
+                tanggal == getString(R.string.tanggal_tes) -> showToast(getString(R.string.peringatan_tanggal))
+                gender.isEmpty() -> showToast(getString(R.string.peringatan_gender))
+            }
+
             viewModel.getToken().observe(this){
                 if (it.token != null){
                     showLoading(true)

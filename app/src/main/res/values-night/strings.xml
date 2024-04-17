@@ -58,4 +58,8 @@
     <string name="kalkulator_njam_tidur">Kalkulator \nJam Tidur</string>
     <string name="_00_00">00:00</string>
     <string name="kalkulasi">KALKULASI</string>
+    <string name="peringatan">Mohon data jangan ada yang kosong</string>
+    <string name="peringatan_nama">mohon kolom nama diisi</string>
+    <string name="peringatan_tanggal">mohon tanggal diisi</string>
+    <string name="peringatan_gender">mohon pilih gender</string>
 </resources>

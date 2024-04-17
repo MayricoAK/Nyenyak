@@ -12,8 +12,15 @@
         <item name="colorSurface">@color/white</item>
     </style>
 
+    <style name="Component" parent="Theme.MaterialComponents"/>
+
+    <style name="FLoatingActionButton" parent="ThemeOverlay.Material3.FloatingActionButton.Primary">
+        <item name="colorAccent">@color/dark_purple</item>
+    </style>
     <style name="CustomDialog" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
     </style>
+
+
 </resources>

@@ -16,6 +16,7 @@ import com.dicoding.nyenyak.databinding.FragmentUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.setelan.SettingsActivity
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
@@ -81,7 +82,7 @@ class UserFragment : Fragment() {
                                 val responseBody = response.body()
                                 if (responseBody != null){
                                     binding.namaInfoUser.text = responseBody.user?.name
-                                    binding.umurInfoUser.text = responseBody.user?.age?.toInt().toString().trim()
+                                    binding.umurInfoUser.text = responseBody.user?.age.toString()
                                     binding.emailInfoUser.text = responseBody.user?.email
                                     binding.genderInfoUser.text = responseBody.user?.gender
                                     binding.lahirInfoUser.text = responseBody.user?.birthDate
@@ -91,11 +92,13 @@ class UserFragment : Fragment() {
                             }
                             else{
                                 val errorcode : String = response.code().toString()
-                                when(errorcode){
-                                    "401" -> {
-                                    }
-                                }
-                                context?.startActivity(intent)
+//                                when(errorcode){
+//                                    "401" -> {intent = Intent(
+//                                        this@UserFragment.context as MainActivity,
+//                                        LoginActivity::class.java)
+//                                    }
+//                                }
+//                                context?.startActivity(intent)
                             }
                         }
 

@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
+import com.dicoding.nyenyak.data.repository.ModelProto
 import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.databinding.ActivityLoginBinding
 import com.dicoding.nyenyak.session.DataModel
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+    private var message: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -73,6 +75,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+        var modelProto = ModelProto()
         binding.btnLogin.setOnClickListener {
             showLoading(true)
             try {
@@ -83,24 +86,31 @@ class LoginActivity : AppCompatActivity() {
                     email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email_login)
                     password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password_login)
                 }
-
                 viewModel.login(email, password)
+                viewModel.message.observe(this){
+                    message = it
+                }
+
                 viewModel.loginResponse.observe(this) {
-                    Log.e("Login", "it: $it")
-                    if (it.status == "success") {
-                        save(
-                            DataModel(
-                                it.token.toString(),
-                                it.message.toString(),
-                                it.expirateTime.toString(),
-                                true
+                    Log.e("LoginCek", "it: $it")
+                    when{
+                        (it.status == "success") -> {
+                            save(
+                                DataModel(
+                                    it.token.toString(),
+                                    it.message.toString(),
+                                    it.expirateTime.toString(),
+                                    true
+                                )
                             )
-                        )
-                        showLoading(false)
-                    }
-                    else {
-                        showLoading(false)
-                        showToast(it.message)
+                            showLoading(false)
+                            showToast(it.message)
+                        }
+                        (it.status != "success") ->{
+                            Log.e("cek","apakah berfungsi")
+                            showLoading(false)
+                            showToast(message)
+                        }
                     }
                 }
             } catch (e: HttpException) {
@@ -110,6 +120,7 @@ class LoginActivity : AppCompatActivity() {
                 showToast(errorResponse.message)
             }
             showLoading(false)
+
         }
     }
 
@@ -130,6 +141,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showToast(message: String?) {
+        Log.e("toast", message.toString())
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 

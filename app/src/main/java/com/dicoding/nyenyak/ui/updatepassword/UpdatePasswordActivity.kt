@@ -41,7 +41,11 @@ class UpdatePasswordActivity : AppCompatActivity() {
 
             if(check(pwdBaru, pwdConf) == false){
                 showToast(getString(R.string.cek_pwd_gagal))
-            }else{
+            }
+            else if(pwdBaru.isEmpty() || pwdConf.isEmpty()){
+                showToast(getString(R.string.peringatan))
+            }
+            else{
                 doAction(pwdBaru)
             }
         }

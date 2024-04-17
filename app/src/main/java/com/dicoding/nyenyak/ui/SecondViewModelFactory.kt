@@ -9,6 +9,7 @@ import com.dicoding.nyenyak.ui.fragment.dashboard.DashboardFragmentViewModel
 import com.dicoding.nyenyak.ui.fragment.list.ListFragmentViewModel
 import com.dicoding.nyenyak.ui.fragment.user.UserFragmentViewModel
 import com.dicoding.nyenyak.ui.input.InputViewModel
+import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.splash.SplashViewModel
 import com.dicoding.nyenyak.ui.update.UpdateUserViewModel
 import com.dicoding.nyenyak.ui.updatepassword.UpdatePasswordViewModel
@@ -51,6 +52,10 @@ class SecondViewModelFactory(private val pref: SessionPreference) : ViewModelPro
 
             modelClass.isAssignableFrom(CalculatorViewModel::class.java) ->{
                 CalculatorViewModel(pref) as T
+            }
+
+            modelClass.isAssignableFrom(MainViewModel::class.java) ->{
+                MainViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

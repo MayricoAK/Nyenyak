@@ -1,19 +1,16 @@
 package com.dicoding.nyenyak.data.repository
 
-import android.content.Context
-import android.content.Intent
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.nyenyak.data.api.ApiService
 import com.dicoding.nyenyak.data.response.ForgotResponse
-import com.dicoding.nyenyak.data.response.GetDetailUserResponse
-import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.data.response.RegisterResponse
 import com.dicoding.nyenyak.session.DataModel
 import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.ui.main.MainActivity
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,6 +26,8 @@ class AppRepository private constructor(
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
+    var _message = MutableLiveData<String>()
+    var message: MutableLiveData<String> = _message
     suspend fun register(email: String, password: String, name: String, gender: String, birthdate: String): RegisterResponse {
         return apiService.register(email, password, name, gender, birthdate)
     }
@@ -47,7 +46,7 @@ class AppRepository private constructor(
 
     fun login(email: String, password: String) {
         _isLoading.value = true
-
+        var dataMessage = ModelProto()
         val client = apiService.login(email, password)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
@@ -55,21 +54,32 @@ class AppRepository private constructor(
                 response: Response<LoginResponse>
             ) { if (response.isSuccessful) {
                 val responseBody = response.body()
-                if (responseBody?.status == "failed"){
-                    _isLoading.value = false
-                    _loginResponse.value = response.body()
-                }else{
-                    _isLoading.value = false
-                    _loginResponse.value = response.body()
+                if(responseBody != null){
+                    if (responseBody?.status == "failed"){
+                        _isLoading.value = false
+                        _loginResponse.value = response.body()
+                        _message.value = responseBody.message.toString()
+                        dataMessage.message = responseBody.message.toString()
+                    }else{
+                        _isLoading.value = false
+                        _loginResponse.value = response.body()
+                        _message.value = responseBody.message.toString()
+                        dataMessage.message = responseBody.message.toString()
+                    }
                 }
             }
+                else{
+                val errorResponse = Gson().fromJson(response.errorBody()?.string(), LoginResponse::class.java)
+                _message.value = errorResponse.message.toString()
+                Log.e("disini",errorResponse.message.toString())
             }
-
+            }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 _isLoading.value = false
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+
     }
 
     suspend fun logout() {

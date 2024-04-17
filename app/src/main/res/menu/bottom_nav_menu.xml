@@ -10,6 +10,7 @@
         android:id="@+id/listFragment"
         android:icon="@drawable/baseline_list_24"
         android:title="@string/list" />
+    <item android:title="" />
     <item
         android:id="@+id/calculatorFragment"
         android:icon="@drawable/baseline_calculate_24"

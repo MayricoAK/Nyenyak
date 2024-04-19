@@ -52,9 +52,9 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
             tanggal = binding.tanggalUpdateUser.text.toString()
 
             if (binding.radiobutton1.isChecked){
-                gender = binding.radiobutton1.text.toString()
+                gender = "male"
             }else if (binding.radiobutton2.isChecked){
-                gender = binding.radiobutton2.text.toString()
+                gender = "female"
             }else{
                 gender = ""
             }

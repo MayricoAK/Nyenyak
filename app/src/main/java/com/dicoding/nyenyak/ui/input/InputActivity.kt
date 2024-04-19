@@ -56,6 +56,9 @@ class InputActivity : AppCompatActivity() {
             if (weight == null || height == null || sleepDuration == null || heartRate == null || dailySteps == null || physicalActivityLevel == null){
                 showToast(getString(R.string.peringatan))
             }
+            if (physicalActivityLevel >= 24){
+                showToast("Jam yang dimasukkan melebihi 24 jam")
+            }
             val pref = SessionPreference.getInstance(application.datastore)
             val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
                 InputViewModel::class.java

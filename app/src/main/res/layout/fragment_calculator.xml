@@ -27,7 +27,7 @@
             android:paddingBottom="5dp"
             android:text="@string/kalkulator_njam_tidur"
             android:textColor="@color/white"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
     </LinearLayout>
 
     <TextView

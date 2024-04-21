@@ -9,7 +9,6 @@ import com.dicoding.nyenyak.session.DataModel
 import com.dicoding.nyenyak.session.SessionPreference
 
 class InputViewModel(private val pref: SessionPreference): ViewModel() {
-
     fun gettoken(): LiveData<DataModel> {
         return pref.getToken().asLiveData()
         }

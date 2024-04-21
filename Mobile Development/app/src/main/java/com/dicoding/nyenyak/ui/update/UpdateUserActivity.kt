@@ -3,6 +3,7 @@ package com.dicoding.nyenyak.ui.update
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +14,7 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityUpdateUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
 import com.google.gson.Gson
@@ -31,9 +32,10 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         binding = ActivityUpdateUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        showLoading(false)
 
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
             UpdateUserViewModel::class.java
         )
 
@@ -50,15 +52,22 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
             tanggal = binding.tanggalUpdateUser.text.toString()
 
             if (binding.radiobutton1.isChecked){
-                gender = binding.radiobutton1.text.toString()
+                gender = "male"
             }else if (binding.radiobutton2.isChecked){
-                gender = binding.radiobutton2.text.toString()
+                gender = "female"
             }else{
                 gender = ""
             }
 
+            when{
+                nama.isEmpty() -> showToast(getString(R.string.peringatan_nama))
+                tanggal == getString(R.string.tanggal_tes) -> showToast(getString(R.string.peringatan_tanggal))
+                gender.isEmpty() -> showToast(getString(R.string.peringatan_gender))
+            }
+
             viewModel.getToken().observe(this){
                 if (it.token != null){
+                    showLoading(true)
                     lifecycleScope.launch {
                         try {
                             val config = ApiConfig.getApiService(it.token)
@@ -66,11 +75,13 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                             showToast(response.message.toString())
                             val intent = Intent(this@UpdateUserActivity,MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            showLoading(false)
                             startActivity(intent)
                         }catch (e : HttpException){
                             val errorBody = e.response()?.errorBody()?.string()
                             val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
                             showToast(errorResponse.message.toString())
+                            showLoading(false)
                         }
                     }
                 }
@@ -93,5 +104,10 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressUpdateUser.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressUpdateUser.isEnabled = !isLoading
     }
 }

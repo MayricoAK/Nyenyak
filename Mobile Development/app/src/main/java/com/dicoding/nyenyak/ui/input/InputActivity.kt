@@ -14,24 +14,24 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-
 
 class InputActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInputBinding
     private var sldsleep: Int = 3
     private var sldstress: Int = 3
+    private var bloodpressure: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        showLoading(false)
 
         setOnClickListenerDialogInfoItem()
 
@@ -41,28 +41,36 @@ class InputActivity : AppCompatActivity() {
         binding.sliderratingtidur.addOnChangeListener { slider, value, fromUser ->
             sldsleep = value.toInt()
         }
-
+        binding.spinnerbpinput.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newText ->
+            bloodpressure = newText
+        }
         binding.btnInput.setOnClickListener {
-
             var weight = binding.etBbInput.text.toString().toInt()
             var height = binding.etTinggiInput.text.toString().toInt()
             var sleepDuration = binding.etTidurInput.text.toString().toFloat()
-            var bloodPressure = binding.spinnerbpinput.selectedItem.toString()
+
             var heartRate = binding.etJantungInput.text.toString().toInt()
             var dailySteps = binding.etLangkahInput.text.toString().toInt()
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
 
+            if (weight == null || height == null || sleepDuration == null || heartRate == null || dailySteps == null || physicalActivityLevel == null){
+                showToast(getString(R.string.peringatan))
+            }
+            if (physicalActivityLevel >= 24){
+                showToast("Jam yang dimasukkan melebihi 24 jam")
+            }
             val pref = SessionPreference.getInstance(application.datastore)
-            val viewmodel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
+            val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
                 InputViewModel::class.java
             )
             viewmodel.gettoken().observe(this){
             if(it.token != null){
                 lifecycleScope.launch {
                     try {
+                        showLoading(true)
                         val apiService = ApiConfig.getApiService(it.token)
                         val inputResponse = apiService.inputDiagnosis(
-                            weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodPressure,sldstress,heartRate,dailySteps
+                            weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodpressure,sldstress,heartRate,dailySteps
                         )
 
                         showToast(inputResponse.message.toString())
@@ -71,12 +79,15 @@ class InputActivity : AppCompatActivity() {
                         intent.putExtra("diagnosis", inputResponse.newDiagnosis?.sleepDisorder.toString())
                         intent.putExtra("solusi", inputResponse.newDiagnosis?.solution.toString())
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        showLoading(false)
                         startActivity(intent)
 
                     }catch (e: HttpException){
+                        showLoading(true)
                         val errorBody = e.response()?.errorBody()?.string()
                         val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
                         showToast(errorResponse.message.toString())
+                        showLoading(false)
                         startActivity(Intent(this@InputActivity,LoginActivity::class.java))
                     }
                 }
@@ -107,12 +118,17 @@ class InputActivity : AppCompatActivity() {
         AlertDialog.Builder(this, R.style.RoundedMaterialDialog)
             .setTitle(getString(titleId))
             .setMessage(getString(messageId))
-            .setPositiveButton("Okey") { _, _ ->
+            .setPositiveButton(getString(R.string.okey)) { _, _ ->
                 // do nothing
             }.create().show()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressInput.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressInput.isEnabled = !isLoading
     }
 }

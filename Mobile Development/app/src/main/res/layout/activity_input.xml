@@ -326,13 +326,25 @@
                     android:layout_marginStart="10dp"/>
             </LinearLayout>
 
-           <Spinner
-               android:background="@drawable/isian"
-               android:id="@+id/spinnerbpinput"
-               android:entries="@array/bloodpressure"
-               android:layout_width="match_parent"
-               android:layout_height="55dp"
-               android:layout_marginBottom="20dp"/>
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:background="@color/white"
+                android:hint="Tekanan Darah"
+                android:padding="10dp"
+                android:textColorHint="@color/dark_purple"
+                android:textColor="@color/dark_purple"
+                android:id="@+id/spinnerbpinput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:spinner_item_array="@array/bloodpressure"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_padding="8dp"
+                app:spinner_divider_color="@color/white"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="0.4dp"
+                app:spinner_item_height="46dp"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_background="@color/white"
+                app:spinner_popup_elevation="14dp"/>
 
             <LinearLayout
                 android:id="@+id/ll_detak_jantung_title"
@@ -364,7 +376,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/et_langkah_input"
+                    android:id="@+id/et_jantung_input"
                     android:inputType="number"
                     android:paddingStart="15dp"
                     android:background="@drawable/isian"
@@ -413,7 +425,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/et_jantung_input"
+                    android:id="@+id/et_langkah_input"
                     android:inputType="number"
                     android:paddingStart="15dp"
                     android:background="@drawable/isian"
@@ -442,9 +454,14 @@
                 android:layout_height="60dp"/>
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/progress_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.26999998" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </ScrollView>

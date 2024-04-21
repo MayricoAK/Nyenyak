@@ -11,10 +11,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dicoding.nyenyak.R
+import com.dicoding.nyenyak.data.repository.ModelProto
 import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.databinding.ActivityLoginBinding
 import com.dicoding.nyenyak.session.DataModel
 import com.dicoding.nyenyak.ui.ViewModelFactory
+import com.dicoding.nyenyak.ui.forgot.ForgotPasswordActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import com.google.gson.Gson
@@ -27,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
     }
+    private var message: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -34,11 +38,15 @@ class LoginActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setClickListener()
+
     }
 
     private fun setClickListener() {
         binding.ivBackBtn.setOnClickListener {
             navigateToBack()
+        }
+        binding.tvForgotPwdKlik.setOnClickListener {
+            navigateToForgot()
         }
     }
 
@@ -47,6 +55,10 @@ class LoginActivity : AppCompatActivity() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intentToWelcome)
+    }
+
+    private fun navigateToForgot(){
+        startActivity(Intent(this,ForgotPasswordActivity::class.java))
     }
 
     private fun setupView() {
@@ -63,32 +75,42 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
+        var modelProto = ModelProto()
         binding.btnLogin.setOnClickListener {
+            showLoading(true)
             try {
-                viewModel.isLoading.observe(this) {
-                    showLoading(it)
-                }
-
                 val email = binding.layoutSignForm.editTextEmail.text.toString()
                 val password = binding.layoutSignForm.editTextPassword.text.toString()
 
                 when {
-                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = "Kolom Email harus diisi!!"
-                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = "Kolom Password harus diisi!!"
+                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email_login)
+                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password_login)
+                }
+                viewModel.login(email, password)
+                viewModel.message.observe(this){
+                    message = it
                 }
 
-                viewModel.login(email, password)
                 viewModel.loginResponse.observe(this) {
-                    Log.e("Login", "it: $it")
-                    if (it.status == "success") {
-                        save(
-                            DataModel(
-                                it.token.toString(),
-                                it.message.toString(),
-                                it.expirateTime.toString(),
-                                true
+                    Log.e("LoginCek", "it: $it")
+                    when{
+                        (it.status == "success") -> {
+                            save(
+                                DataModel(
+                                    it.token.toString(),
+                                    it.message.toString(),
+                                    it.expirateTime.toString(),
+                                    true
+                                )
                             )
-                        )
+                            showLoading(false)
+                            showToast(it.message)
+                        }
+                        (it.status != "success") ->{
+                            Log.e("cek","apakah berfungsi")
+                            showLoading(false)
+                            showToast(message)
+                        }
                     }
                 }
             } catch (e: HttpException) {
@@ -97,12 +119,14 @@ class LoginActivity : AppCompatActivity() {
                 val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
                 showToast(errorResponse.message)
             }
+            showLoading(false)
+
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-        binding.btnLogin.isEnabled = !isLoading
+        binding.pbLoading.visibility = if (isLoading == true) View.VISIBLE else View.GONE
+
     }
 
     private fun save(session: DataModel) {
@@ -117,6 +141,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showToast(message: String?) {
+        Log.e("toast", message.toString())
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 

@@ -18,16 +18,12 @@ import kotlinx.coroutines.launch
 class WelcomeActivity : AppCompatActivity() {
     private var _binding : ActivityWelcomeBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel by viewModels<MainViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupView()
         setupAction()
-        handleLogout()
     }
 
     private fun setupView() {
@@ -52,12 +48,6 @@ class WelcomeActivity : AppCompatActivity() {
 
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
-        }
-    }
-
-    private fun handleLogout() {
-        lifecycleScope.launch {
-            mainViewModel.logout()
         }
     }
 }

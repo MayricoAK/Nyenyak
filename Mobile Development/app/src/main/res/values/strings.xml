@@ -64,11 +64,44 @@
     <string name="rating_tidur_info">Penilaian subjektif terhadap kualitas tidur, berkisar antara 1 hingga 10</string>
     <string name="rating_stres_info">Peringkat subjektif dari tingkat stres yang dialami seseorang, berkisar antara 1 hingga 10</string>
     <string name="aktivitas_fisik_info">Jumlah jam seseorang melakukan aktivitas fisik setiap hari</string>
-    <string name="tekanan_darah_info">Pengukuran tekanan darah seseorang, ditunjukkan sebagai tekanan sistolik dan tekanan diastolik</string>
+    <string name="tekanan_darah_info">Pengukuran tekanan darah seseorang \nElevated = 120 &lt; systolic &lt;= 129 and diastolic &lt;= 80 \nStage 1 = (130 &lt;= systolic &lt;= 139) atau (80 &lt; diastolic &lt; 89) \nStage 2 = selain yang disebutkan</string>
     <string name="detak_jantung_info">Detak jantung istirahat seseorang dalam detak per menit (BPM)</string>
     <string name="langkah_info">Jumlah langkah yang dilakukan seseorang per hari</string>
     <string name="input_ndata">Input\nData</string>
     <string name="langkah_harian">Langkah Harian</string>
+    <string name="alert_nama">Nama harus diisi!</string>
+    <string name="alert_email">Email harus diisi!</string>
+    <string name="alert_password">Password harus diisi!</string>
+    <string name="alert_gender">Jenis Kelamin harus diisi!</string>
+    <string name="selamat">Selamat!</string>
+    <string name="registrasi_berhasil">Registrasi berhasil. Lanjut untuk masuk?</string>
+    <string name="ya">Ya</string>
+    <string name="alert_email_login">Kolom Email harus diisi!!</string>
+    <string name="alert_password_login">Kolom Password harus diisi!!</string>
+    <string name="okey">Okey</string>
+    <string name="sesi_berakhir">sesi login anda telah berakhir</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="sub_title">Masukkan email untuk lakukan reset password</string>
+    <string name="kirim">Kirim</string>
+    <string name="lupa_password_klik">Lupa password klik</string>
+    <string name="alert_email_pattern">email anda tidak sesuai</string>
+    <string name="update_npassword">Update \nPassword</string>
+    <string name="password_baru">Password Baru</string>
+    <string name="konfirmasi_password_baru">Konfirmasi Password Baru</string>
+    <string name="update_password">UPDATE PASSWORD</string>
+    <string name="update">UPDATE</string>
+    <string name="cek_pwd_gagal">Mohon cek kembali password dan konfirmasi password</string>
+    <string name="email_terdaftar">Pastikan email anda sudah terdaftar</string>
+    <string name="setelan">Setelan</string>
+    <string name="ubah_informasi_akun">Ubah Informasi Akun</string>
+    <string name="ubah_password">Ubah Password</string>
+    <string name="kalkulator_njam_tidur">Kalkulator \nJam Tidur</string>
+    <string name="_00_00">00:00</string>
+    <string name="kalkulasi">KALKULASI</string>
+    <string name="peringatan">Mohon data jangan ada yang kosong</string>
+    <string name="peringatan_nama">mohon kolom nama diisi</string>
+    <string name="peringatan_tanggal">mohon tanggal diisi</string>
+    <string name="peringatan_gender">mohon pilih gender</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>
